@@ -4,8 +4,12 @@ require("dotenv").config();
 const PORT = process.env.PORT;
 
 const mongoose = require("mongoose");
+app.use(express.json());
+
 
 // https://tops-react-project.onrender.com
+
+
 
 mongoose
   .connect(process.env.DBURL)
@@ -15,6 +19,10 @@ mongoose
   .catch((err) => {
     console.log(err);
   });
+
+
+
+app.use("/users",require("../router/userRouter"))
 
 
 app.get("/", (req, resp) => {
