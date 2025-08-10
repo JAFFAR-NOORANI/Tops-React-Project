@@ -49,7 +49,9 @@ router.get("/", async (req, resp) => {
     });
 
     resp.status(200).send(products);
-  } catch (error) {}
+  } catch (error) {
+    resp.send(error);
+  }
 });
 
 module.exports = router;
