@@ -45,7 +45,7 @@ router.get("/", async (req, resp) => {
   try {
     const products = await Product.find();
     products.map((ele) => {
-      ele.image_url = process.env.IMGURL + "product/image/" + ele.image_url;
+      ele.image_url = process.env.IMGURL + "productsimage/" + ele.image_url;
     });
 
     resp.status(200).send(products);
