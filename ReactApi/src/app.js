@@ -21,11 +21,8 @@ mongoose
 app.use("/users", require("../router/userRouter"));
 app.use("/categories", require("../router/categoryRouter"));
 app.use("/products", require("../router/productRouter"));
-// app.use("/products/image", express.static(path.join(__dirname, "img")));
-app.use("/products/image", express.static(path.join(__dirname, "..", "img")));
-
-
-
+app.use(express.static(path.join(__dirname, "img")));
+// app.use("/products/image", express.static(path.join(__dirname, "..", "img")));
 
 app.get("/", (req, resp) => {
   resp.send("Node Api - for ecommerce website");
