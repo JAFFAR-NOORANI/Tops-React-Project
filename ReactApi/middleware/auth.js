@@ -8,7 +8,7 @@ const auth = async (req, resp, next) => {
 
     if (verifiedToken) {
       req.user = await User.findOne({ _id: verifiedToken._id });
-console.log(req.user);
+// console.log(req.user);
 
       next();
     } else {

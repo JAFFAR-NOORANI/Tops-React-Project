@@ -4,6 +4,7 @@ const Product = require("../model/products");
 const path = require("path");
 const cloudinary = require("cloudinary").v2;
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const auth = require("../middleware/auth");
 
 // Configuration
 cloudinary.config({
@@ -36,8 +37,12 @@ const storage = new CloudinaryStorage({
 
 const upload = multer({ storage });
 
-router.post("/", upload.single("file"), async (req, resp) => {
+router.post("/", auth, upload.single("file"), async (req, resp) => {
   // console.log(req.file.path);
+  if (req.user.role != "admin") {
+    resp.send("Access denied");
+    return;
+  }
 
   req.body.image_url = req.file.path;
   try {
@@ -80,7 +85,7 @@ router.get("/image/:name", (req, resp) => {
 
 router.get("/", async (req, resp) => {
   try {
-    const products = await Product.find();
+    const products = await Product.find().populate("category.name");
 
     // products.map((ele) => {
     //   ele.image_url = process.env.IMGURL + "products/image/" + ele.image_url;
@@ -91,12 +96,59 @@ router.get("/", async (req, resp) => {
   }
 });
 
-router.put("/:id", upload.single("file"), async (req, resp) => {
+router.put("/:id", auth, upload.single("file"), async (req, resp) => {
+  if (req.user.role != "admin") {
+    resp.send("Access denied");
+    return;
+  }
   const id = req.params.id;
-  req.body.image_url = req.file.path;
+  // req.body.image_url = req.file.path;
+
+  if (req.file) {
+    req.body.image_url = req.file.path; // Cloudinary path
+  }
+
   try {
     const updatedProduct = await Product.findByIdAndUpdate(id, req.body);
     resp.status(201).send(updatedProduct);
+  } catch (error) {
+    resp.send(error);
+  }
+});
+
+router.get("/:id", async (req, resp) => {
+  const id = req.params.id;
+  try {
+    const products = await Product.find({ _id: id }).populate("category.name");
+
+    resp.status(200).send(products);
+  } catch (error) {
+    resp.send(error);
+  }
+});
+
+router.delete("/:id", auth, async (req, resp) => {
+  if (req.user.role != "admin") {
+    resp.send("Access denied");
+    return;
+  }
+
+  const id = req.params.id;
+  try {
+    const products = await Product.findByIdAndDelete(id);
+    resp.status(200).send(products);
+  } catch (error) {
+    resp.send(error);
+  }
+});
+
+router.get("/category/:id", async (req, resp) => {
+  const id = req.params.id;
+ 
+  try {
+    const products = await Product.find({ category: id }).populate("category");
+
+    resp.status(200).send(products);
   } catch (error) {
     resp.send(error);
   }

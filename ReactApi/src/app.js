@@ -22,6 +22,12 @@ app.use("/users", require("../router/userRouter"));
 app.use("/categories", require("../router/categoryRouter"));
 app.use("/products", require("../router/productRouter"));
 app.use(express.static(path.join(__dirname, "img")));
+app.use("/carts", require("../router/cartRouter"));
+
+
+
+
+
 // app.use("/products/image", express.static(path.join(__dirname, "..", "img")));
 
 app.get("/", (req, resp) => {
