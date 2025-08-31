@@ -3,9 +3,25 @@ const app = express();
 require("dotenv").config();
 const PORT = process.env.PORT;
 const path = require("path");
+const cors = require('cors');
 
 const mongoose = require("mongoose");
 app.use(express.json());
+
+
+// for cros 
+
+// app.use(cors({
+//   origin: 'http://localhost:5173', // or '*' for any origin
+// }));
+
+// app.get('/products', (req, res) => {
+//   res.json({ message: "Hello from backend" });
+// });
+
+// app.listen(3000, () => console.log('Server running on 3000'));
+
+
 
 // https://tops-react-project.onrender.com
 
