@@ -1,8 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const displayProduct = createAsyncThunk("displayProduct", async () => {
-  const resp = fetch("http://localhost:3000/products");
-  return (await resp).json();
+  const resp = await fetch("https://tops-react-project.onrender.com/products");
+  console.log(resp);
+  const data = await resp.json();
+console.log("Fetched data:", data);
+return data;
+
+
 });
 
 export const productSlice = createSlice({
@@ -16,14 +21,16 @@ export const productSlice = createSlice({
     builder.addCase(displayProduct.pending, (state) => {
       state.isLoading = true;
     });
-     builder.addCase(displayProduct.fulfilled, (state,action) => {
+    builder.addCase(displayProduct.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.data = action.payload
+      console.log("Data inside slice (fulfilled):", action.payload);
+
+      state.data = action.payload;
     });
     builder.addCase(displayProduct.rejected, (state) => {
-        state.isError = true
-    })
+      state.isError = true;
+    });
   },
 });
 
-export default productSlice.reducer
+export default productSlice.reducer;

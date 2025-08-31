@@ -11,16 +11,7 @@ app.use(express.json());
 
 // for cros 
 
-// app.use(cors({
-//   origin: 'http://localhost:5173', // or '*' for any origin
-// }));
-
-// app.get('/products', (req, res) => {
-//   res.json({ message: "Hello from backend" });
-// });
-
-// app.listen(3000, () => console.log('Server running on 3000'));
-
+app.use(cors());
 
 
 // https://tops-react-project.onrender.com
