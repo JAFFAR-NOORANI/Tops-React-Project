@@ -19,7 +19,8 @@ const Home = () => {
   // console.log(products);
 
   const categorySelector = (cid) => {
-    setProducts(p.filter((ele) => ele.category._id === cid));
+    
+    setProducts(p.filter((ele) => ele.category._id == cid));
   };
 
   useEffect(() => {
@@ -141,20 +142,16 @@ const Home = () => {
 
         {/* <!--=============== PRODUCTS ===============--> */}
         <section className="products container section">
-         <div className="tab__btns">
-  <span className="tab__btn active-tab" onClick={() => setProducts(p)}>
+          <div className="tab__btns">
+            {/* <span className="tab__btn active-tab" onClick={() => setProducts(p)}>
     All
-  </span>
-  {categories.map((ele) => (
-    <span
-      key={ele._id}
-      className="tab__btn"
-      onClick={() => categorySelector(ele._id)}
-    >
-      {ele.name}
-    </span>
-  ))}
-</div>
+  </span> */}
+            {categories.map(ele=>
+              <span key={ele._id} className="tab__btn active-tab" onClick={() => categorySelector(ele._id)}>
+                {ele.name}
+              </span>)
+            }
+          </div>
 
           <div className="tab__items">
             <div className="tab__item active-tab" content id="featured">
@@ -207,7 +204,7 @@ const Home = () => {
                     </div>
                     <div className="product__content">
                       <span className="product__category">
-                        {ele.category.name}
+                        {ele.category?.name || "No Category"}
                       </span>
                       <Link to="/details">
                         <h3 className="product__title">{ele.name}</h3>
