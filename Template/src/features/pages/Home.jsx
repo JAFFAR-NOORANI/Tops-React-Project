@@ -19,7 +19,7 @@ const Home = () => {
   // console.log(products);
 
   const categorySelector = (cid) => {
-    setProducts(p.filter((ele) => ele.category === cid));
+    setProducts(p.filter((ele) => ele.category._id === cid));
   };
 
   useEffect(() => {
