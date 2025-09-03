@@ -105,12 +105,14 @@ router.post("/login", async (req, resp) => {
           role: user.role,
         };
         resp.send(data);
-        
       } else {
-        resp.send("Invalid Credentials  123");
+        // resp.send("Invalid Credentials  123");
+        resp.status(401).send({ error: "Invalid Credentails ! " });
       }
     } else {
-      resp.send("Invalid Credentials !!!!!!!");
+      // resp.send("Invalid Credentials !!!!!!!");
+        resp.status(401).send({ error: "Invalid Credentails !! " });
+
     }
   } catch (error) {
     console.log(error);

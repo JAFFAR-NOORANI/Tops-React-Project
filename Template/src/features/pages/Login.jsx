@@ -37,10 +37,13 @@ const Login = () => {
     };
  
     dispatch(useReg(data));
+
+    const token = useSelector((state) => state.login.token);
+
+    
   };
 
-  console.log(token);
-  
+
 
   return (
     <>
