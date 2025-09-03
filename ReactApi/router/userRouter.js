@@ -54,7 +54,7 @@ router.put("/:id", auth, async (req, resp) => {
       if (req.user._id == _id) {
         const users = await User.findByIdAndUpdate(_id, req.body);
         resp.status(200).send(users);
-        return; 
+        return;
       } else {
         resp.status(403).send("Access Denied");
         return;
@@ -100,8 +100,12 @@ router.post("/login", async (req, resp) => {
           process.env.SKEY
         );
         // console.log(token);
-
-        resp.send("auth-token : " + token);
+        const data = {
+          authtoken: token,
+          role: user.role,
+        };
+        resp.send(data);
+        
       } else {
         resp.send("Invalid Credentials  123");
       }

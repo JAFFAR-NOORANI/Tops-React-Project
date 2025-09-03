@@ -15,13 +15,26 @@ const Home = () => {
   const [products, setProducts] = useState([]);
   const dispatch = useDispatch();
 
+  const [activeCategory, setActiveCategory] = useState(null);
+
   const categories = useSelector((state) => state.category.data);
   // console.log(products);
 
-  const categorySelector = (cid) => {
-    
-    setProducts(p.filter((ele) => ele.category._id == cid));
-  };
+ const categorySelector = (cid) => {
+  setActiveCategory(cid);
+
+  if (cid === "all") {
+    setProducts(p); // show all products
+  } else {
+    setProducts(
+      p.filter((ele) => ele.category?._id?.toString() === cid.toString())
+    );
+  }
+};
+
+
+
+
 
   useEffect(() => {
     setProducts(p);
@@ -142,16 +155,27 @@ const Home = () => {
 
         {/* <!--=============== PRODUCTS ===============--> */}
         <section className="products container section">
-          <div className="tab__btns">
-            {/* <span className="tab__btn active-tab" onClick={() => setProducts(p)}>
+        <div className="tab__btns">
+
+ <span
+    key="all"
+    className={`tab__btn ${activeCategory === "all" ? "active-tab" : ""}`}
+    onClick={() => categorySelector("all")}
+  >
     All
-  </span> */}
-            {categories.map(ele=>
-              <span key={ele._id} className="tab__btn active-tab" onClick={() => categorySelector(ele._id)}>
-                {ele.name}
-              </span>)
-            }
-          </div>
+  </span>
+
+  {categories.map(ele =>
+    <span
+      key={ele._id}
+      // ⬇️ Change this line
+      className={`tab__btn ${activeCategory === ele._id ? "active-tab" : ""}`}
+      onClick={() => categorySelector(ele._id)}
+    >
+      {ele.name}
+    </span>
+  )}
+</div>
 
           <div className="tab__items">
             <div className="tab__item active-tab" content id="featured">
