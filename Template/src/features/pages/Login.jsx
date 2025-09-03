@@ -5,8 +5,7 @@ import { userLogin } from "../users/loginSlice";
 
 const Login = () => {
   const dispatch = useDispatch();
-
-  const token = useSelector((state) => state.login.token);
+  const data1 = useSelector((state) => state.login);
 
   const loginEmail = useRef();
   const loginPassword = useRef();
@@ -35,15 +34,13 @@ const Login = () => {
       password: password.current.value,
       role: "user",
     };
- 
+
     dispatch(useReg(data));
-
-    const token = useSelector((state) => state.login.token);
-
-    
   };
 
-
+      // if (data1 != null && data1.error) {
+      //   alert(data1.error);
+      // }
 
   return (
     <>

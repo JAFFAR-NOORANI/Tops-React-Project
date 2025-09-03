@@ -101,8 +101,8 @@ router.post("/login", async (req, resp) => {
         );
         // console.log(token);
         const data = {
-          authtoken: token,
-          role: user.role,
+          "authtoken": token,
+          "role": user.role,
         };
         resp.send(data);
       } else {
