@@ -5,20 +5,31 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { displayProduct } from "../products/productSlice";
 import { Link } from "react-router-dom";
-
-// const categorySelector = (cid) => {
-//   setProducts(p.filter(ele.category._id  == cid))
-// }
+import { FiShoppingBag } from "react-icons/fi";
+import { displayCategory } from "../products/categorySlice";
+import { useState } from "react";
 
 const Home = () => {
-  const products = useSelector((state) => state.product.data);
-  console.log(products);
+  let p = useSelector((state) => state.product.data);
 
+  const [products, setProducts] = useState([]);
   const dispatch = useDispatch();
+
+  const categories = useSelector((state) => state.category.data);
+  // console.log(products);
+
+  const categorySelector = (cid) => {
+    setProducts(p.filter((ele) => ele.category === cid));
+  };
+
+  useEffect(() => {
+    setProducts(p);
+  }, [p]);
 
   useEffect(() => {
     dispatch(displayProduct());
-  });
+    dispatch(displayCategory());
+  }, []);
 
   return (
     <>
@@ -130,16 +141,20 @@ const Home = () => {
 
         {/* <!--=============== PRODUCTS ===============--> */}
         <section className="products container section">
-          {/* <div className="tab__btns">
-            {categories.map((ele) => (
-              <span
-                className="tab__btn active-tab"
-                onClick={() => categorySelector(ele.id)}
-              >
-                {ele.name}
-              </span>
-            ))}
-          </div> */}
+         <div className="tab__btns">
+  <span className="tab__btn active-tab" onClick={() => setProducts(p)}>
+    All
+  </span>
+  {categories.map((ele) => (
+    <span
+      key={ele._id}
+      className="tab__btn"
+      onClick={() => categorySelector(ele._id)}
+    >
+      {ele.name}
+    </span>
+  ))}
+</div>
 
           <div className="tab__items">
             <div className="tab__item active-tab" content id="featured">
@@ -191,36 +206,34 @@ const Home = () => {
                       <div className="product__badge light-pink">Hot</div>
                     </div>
                     <div className="product__content">
-                      <span className="product__category">Clothing</span>
-                      <a href="details.html">
-                        <h3 className="product__title">
-                          Colorful Pattern Shirts
-                        </h3>
-                      </a>
-                      <div className="product__rating">
-                        <i className="fi fi-rs-star"></i>
-                        <i className="fi fi-rs-star"></i>
-                        <i className="fi fi-rs-star"></i>
-                        <i className="fi fi-rs-star"></i>
-                        <i className="fi fi-rs-star"></i>
-                      </div>
+                      <span className="product__category">
+                        {ele.category.name}
+                      </span>
+                      <Link to="/details">
+                        <h3 className="product__title">{ele.name}</h3>
+                      </Link>
+
                       <div className="product__price flex">
-                        <span className="new__price">$238.85</span>
-                        <span className="old__price">$245.8</span>
+                        <span className="new__price">Rs.{ele.price}</span>
+                        <span className="old__price">
+                          Rs.{Math.ceil(ele.price + (ele.price * 10) / 100)}
+                        </span>
                       </div>
                       <a
                         href="#"
                         className="action__btn cart__btn"
                         aria-label="Add To Cart"
                       >
-                        <i className="fi fi-rs-shopping-bag-add"></i>
+                        <FiShoppingBag
+                          className="fi fi-rs-shopping-bag-add"
+                          size={24}
+                        />
+                        {/* <i className="fi fi-rs-shopping-bag-add"></i> */}
                       </a>
                     </div>
                   </div>
                 ))}
               </div>
-
-              
             </div>
             <div className="tab__item" content id="popular">
               <div className="products__container grid">

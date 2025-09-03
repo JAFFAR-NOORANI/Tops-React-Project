@@ -85,7 +85,7 @@ router.get("/image/:name", (req, resp) => {
 
 router.get("/", async (req, resp) => {
   try {
-    const products = await Product.find().populate("category.name");
+    const products = await Product.find().populate("category");
 
     // products.map((ele) => {
     //   ele.image_url = process.env.IMGURL + "products/image/" + ele.image_url;
@@ -119,7 +119,7 @@ router.put("/:id", auth, upload.single("file"), async (req, resp) => {
 router.get("/:id", async (req, resp) => {
   const id = req.params.id;
   try {
-    const products = await Product.find({ _id: id }).populate("category.name");
+    const products = await Product.find({ _id: id }).populate("category");
 
     resp.status(200).send(products);
   } catch (error) {
@@ -144,7 +144,7 @@ router.delete("/:id", auth, async (req, resp) => {
 
 router.get("/category/:id", async (req, resp) => {
   const id = req.params.id;
- 
+
   try {
     const products = await Product.find({ category: id }).populate("category");
 
