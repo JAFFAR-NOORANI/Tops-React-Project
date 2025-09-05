@@ -38,9 +38,22 @@ const Login = () => {
     dispatch(useReg(data));
   };
 
-      // if (data1 != null && data1.error) {
-      //   alert(data1.error);
-      // }
+  
+  // if (data1 != null) {
+  //   if (data1.error) {
+  //     alert(data1.error)
+  //   }
+  //   else {
+
+  //     localStorage.setItem("authtoken", JSON.stringify(data1.authtoken))
+  //     navigate("/")
+
+  //   }
+  // }
+
+
+
+  
 
   return (
     <>
